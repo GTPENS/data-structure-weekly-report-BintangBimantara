@@ -1,0 +1,26 @@
+//cetak2
+#include <iostream>
+using namespace std;
+
+struct date {
+    int month;
+    int day;
+    int year;
+};
+
+void print_date(date now) {
+    static const char *months[] = {
+        "Wrong month", "January", "February", "March",
+        "April", "May", "June", "July", "August",
+        "September", "October", "November", "December"
+    };
+    cout << "Todays date is " << months[now.month] << " " << now.day << ", " << now.year << endl << endl;
+}
+
+int main() {
+    date today;
+    cout << "Enter the current date (mm-dd-yyyy): ";
+    cin >> today.month >> today.day >> today.year;
+    print_date(today);
+    return 0;
+}

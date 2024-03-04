@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+
+struct record {
+    string name;
+    int id;
+    float value;
+    int loop;
+};
+
+int main() {
+    record sample;
+
+    sample.name = "Sample";
+    sample.id = 1;
+    sample.value = 2.84;
+    sample.loop = 10;
+
+    cout << "Name: " << sample.name << endl;
+    cout << "ID: " << sample.id << endl;
+    cout << "Value: " << sample.value << endl;
+    cout << "Loop: " << sample.loop << endl;
+
+    return 0;
+}

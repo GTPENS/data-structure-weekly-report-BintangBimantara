@@ -1,0 +1,29 @@
+//posisi2
+#include <iostream>
+using namespace std;
+
+struct koordinat {
+    int x;
+    int y;
+};
+
+void tukar_xy(koordinat* pcc_xy)
+{
+    int z;
+    z = pcc_xy->x;
+    pcc_xy->x = pcc_xy->y;
+    pcc_xy->y = z;
+}
+
+int main()
+{
+    koordinat pcc;
+    cout << "Masukkan koordinat posisi x: ";
+    cin >> pcc.x;
+    cout << "Masukkan koordinat posisi y: ";
+    cin >> pcc.y;
+    cout << "x, y semula = " << pcc.x << ", " << pcc.y << endl;
+    tukar_xy(&pcc);
+    cout << "x, y sekarang = " << pcc.x << ", " << pcc.y << endl;
+    return 0;
+}
