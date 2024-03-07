@@ -1,0 +1,66 @@
+#include <iostream>
+
+using namespace std;
+
+// Definisi struktur simpul
+struct simpul {
+  char nama[25];
+  int nrp;
+  struct simpul *next;
+};
+
+// Deklarasi pointer ke simpul terakhir
+simpul *ujung = NULL;
+
+// Fungsi untuk mengalokasikan simpul baru
+simpul* alokasi_simpul() {
+  simpul *newNode = new simpul;
+  if (newNode == NULL) {
+    cout << "Alokasi gagal" << endl;
+    return NULL;
+  } else {
+    newNode->next = NULL;
+    return newNode;
+  }
+}
+
+// Fungsi untuk menyisipkan data di awal linked list
+void sisip_data_awal(simpul *&ujung) {
+  // Alokasi simpul baru
+  simpul *newNode = alokasi_simpul();
+
+  // Meminta input nama dan NRP
+  cout << "Nama : ";
+  cin.getline(newNode->nama, 25);
+  cout << "NRP : ";
+  cin >> newNode->nrp;
+  cin.ignore();
+
+  // Sisipkan newNode di awal linked list
+  newNode->next = ujung;
+  ujung = newNode;
+}
+
+int main() {
+  // Menyisipkan data di awal linked list
+  sisip_data_awal(ujung);
+
+  // Menampilkan data
+  if (ujung != NULL) {
+    cout << "Data yang disimpan:" << endl;
+    cout << "Nama : " << ujung->nama << endl;
+    cout << "NRP : " << ujung->nrp << endl;
+
+    // Menampilkan data simpul selanjutnya (jika ada)
+    simpul *temp = ujung->next;
+    while (temp != NULL) {
+      cout << "Nama : " << temp->nama << endl;
+      cout << "NRP : " << temp->nrp << endl;
+      temp = temp->next;
+    }
+  } else {
+    cout << "Linked list kosong." << endl;
+  }
+
+  return 0;
+}
