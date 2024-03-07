@@ -1,0 +1,109 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+// Definisi struktur simpul
+struct simpul
+{
+    char nama[25];
+    int nrp;
+    struct simpul *next;
+};
+
+struct simpul *ujung; // Deklarasi pointer ke simpul terakhir
+struct simpul *tampung; // Deklarasi pointer untuk menampung simpul sementara
+
+// Fungsi untuk mengalokasikan simpul baru
+struct simpul* alokasi_simpul()
+{
+    struct simpul *newNode;
+    newNode = new simpul; // Menggunakan operator new untuk alokasi memori
+    if(newNode == NULL)
+        return NULL;
+    else
+        newNode->next = NULL;
+    return newNode;
+}
+
+// Fungsi Mencari Simpul Tertentu
+void cariSimpul(const char* nama) {
+    struct simpul* cari = ujung;
+    bool ditemukan = false;
+    while (cari != NULL) {
+        if (strcmp(cari->nama, nama) == 0) {
+            cout << "Data ditemukan: " << "\nNama:" << cari->nama << "\nNRP :" << cari->nrp << endl;
+            ditemukan = true;
+            break;
+        }
+        cari = cari->next;
+    }
+    if (!ditemukan) {
+        cout << "Data tidak ditemukan." << endl;
+    } else {
+        // Penyisipan simpul setelah pencarian
+        struct simpul* baru = alokasi_simpul(); // Allokasi simpul baru
+        if (baru == NULL) {
+            cout << "Alokasi gagal" << endl;
+        } else {
+            struct simpul* cari = ujung;
+            while (cari->next != NULL) { // Mencari simpul terakhir
+                cari = cari->next;
+            }
+            cari->next = baru; // Menyisipkan simpul baru sebagai simpul terakhir
+            tampung = baru; // Menandai simpul baru sebagai simpul terakhir
+        }
+    }
+}
+
+int main()
+{
+    ujung = alokasi_simpul(); // Melakukan alokasi simpul pertama
+    if(ujung == NULL)
+        cout << "Alokasi gagal" << endl; // Menampilkan pesan jika alokasi gagal
+    else
+    {
+        cout << "Masukkan nama: ";
+        cin >> ujung->nama; // Meminta input nama
+        cout << "Masukkan NRP: ";
+        cin >> ujung->nrp; // Meminta input NRP
+        if(ujung->next == NULL) /*kondisi jika data masih kosong*/
+            tampung = ujung; // Jika data masih kosong, simpul pertama ditandai sebagai simpul terakhir
+        else
+        {
+            ujung->next = tampung; // Menghubungkan simpul baru ke simpul terakhir
+            tampung = ujung; // Menandai simpul baru sebagai simpul terakhir
+        }
+
+        // Menampilkan data simpul
+        cout << "\nData yang dimasukkan:" << endl;
+        cout << "Nama: " << ujung->nama << endl;
+        cout << "NRP: " << ujung->nrp << endl;
+    }
+    
+    //  Mencari sebuah simpul
+    cout << "\nPencarian simpul:\n";
+    char namaCari[25];
+    cout << "Masukkan nama yang ingin dicari: ";
+    cin >> namaCari;
+    cariSimpul(namaCari);
+    
+    // Menyisipkan simpul baru setelah pencarian
+    cout << "\nMasukkan data untuk menyisipkan simpul baru:\n";
+    struct simpul* baru = alokasi_simpul(); // Allokasi simpul baru
+    cout << "Nama: ";
+    cin >> baru->nama;
+    cout << "NRP: ";
+    cin >> baru->nrp;
+    struct simpul* cari = ujung;
+    while (cari->next != NULL) { // Mencari simpul terakhir
+        cari = cari->next;
+    }
+    cari->next = baru; // Menyisipkan simpul baru sebagai simpul terakhir
+    tampung = baru; // Menandai simpul baru sebagai simpul terakhir
+    
+    cout << "\nData yang dimasukkan:" << endl;
+    cout << "Nama: " << baru->nama << endl;
+    cout << "NRP: " << baru->nrp << endl;
+
+    return 0;
+}
