@@ -1,0 +1,63 @@
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+// Fungsi untuk memasukkan elemen ke bagian bawah sebuah stack
+void insertAtBottom(stack<int> &s, int x) {
+    if (s.empty())
+        s.push(x);
+    else {
+        int temp = s.top();
+        s.pop();
+        insertAtBottom(s, x);
+        s.push(temp);
+    }
+}
+
+// Fungsi untuk membalikkan sebuah stack
+void reverseStack(stack<int> &s) {
+    if (!s.empty()) {
+        int temp = s.top();
+        s.pop();
+        reverseStack(s);
+        insertAtBottom(s, temp);
+    }
+}
+
+int main() {
+    stack<int> s;
+
+    // Memasukkan elemen ke dalam stack
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    s.push(4);
+
+    // Menampilkan stack sebelum pembalikan
+    cout << "Stack sebelum pembalikan:" << endl;
+    while (!s.empty()) {
+        cout << s.top() << " ";
+        s.pop();
+    }
+    cout << endl;
+
+    // Memasukkan elemen kembali ke dalam stack
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    s.push(4);
+
+    // Membalikkan stack
+    reverseStack(s);
+
+    // Menampilkan stack setelah pembalikan
+    cout << "Stack setelah pembalikan:" << endl;
+    while (!s.empty()) {
+        cout << s.top() << " ";
+        s.pop();
+    }
+    cout << endl;
+
+    return 0;
+}

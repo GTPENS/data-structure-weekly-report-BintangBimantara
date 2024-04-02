@@ -1,0 +1,55 @@
+#include <iostream>
+#include <queue>
+
+using namespace std;
+
+class StackUsingQueue {
+private:
+    queue<int> nil;
+
+public:
+    void push(int value) {
+        // Menambahkan elemen baru ke dalam antrian
+        nil.push(value);
+        // Memindahkan semua elemen ke dalam antrian kecuali elemen terbaru ke belakang antrian
+        for (int i = 0; i < nil.size() - 1; ++i) {
+            nil.push(nil.front()); // Memindahkan elemen depan ke belakang
+            nil.pop(); // Menghapus elemen depan yang sudah dipindahkan
+        }
+    }
+
+    int pop() {
+        if (empty()) {
+            throw out_of_range("StackEmptyException");
+        }
+        int topValue = nil.front(); // Mengambil nilai dari elemen teratas (front) antrian
+        nil.pop(); // Menghapus elemen teratas (front) antrian
+        return topValue;
+    }
+
+    int top() {
+        if (empty()) {
+            throw out_of_range("StackEmptyException");
+        }
+        return nil.front(); // Mengembalikan nilai dari elemen teratas (front) antrian
+    }
+
+    bool empty() {
+        return nil.empty(); // Memeriksa apakah antrian kosong
+    }
+};
+
+int main() {
+    StackUsingQueue stack;
+    stack.push(1);
+    stack.push(2);
+    stack.push(3);
+
+    cout << "elemen atas: " << stack.top() << endl;
+
+    stack.pop();
+
+    cout << "element atas setelah pop: " << stack.top() << endl;
+
+    return 0;
+}
