@@ -1,0 +1,72 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#define MAX 10
+
+using namespace std;
+//Nama: Bintang Bimantara
+//NRP: 5223600025
+
+int Data[MAX];
+int comparisonCount = 0; // Variabel untuk menghitung banyaknya perbandingan
+int shiftCount = 0; // Variabel untuk menghitung banyaknya pergeseran
+
+// Fungsi untuk menukar nilai antara dua variabel
+void Tukar(int *a, int *b) {
+    int temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Fungsi untuk mengurutkan larik menggunakan Selection Sort
+void SelectionSort() {
+    int i, j, k;
+    for (i = 0; i < MAX - 1; i++) {
+        k = i;
+        // Mencari elemen terkecil pada sisa larik yang belum diurutkan
+        for (j = i + 1; j < MAX; j++)
+            if (Data[k] > Data[j])
+                k = j;
+            
+        shiftCount++; // Menambah jumlah pergeseran
+        comparisonCount++; // Menambah jumlah perbandingan
+        
+        // Menukar elemen terkecil dengan elemen di awal larik yang belum diurutkan
+        Tukar(&Data[i], &Data[k]);
+        shiftCount++; // Menambah jumlah pergeseran
+        
+        // Menampilkan larik setiap kali terjadi pertukaran
+        cout << "Iterasi " << i << ": ";
+        for(int k = 0; k < MAX; k++) {
+            cout << Data[k] << " ";
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    int i;
+    srand(time(0));
+
+    // Memberikan bilangan acak
+    cout << "DATA SEBELUM TERURUT" << endl;
+    for (i = 0; i < MAX; i++) {
+        Data[i] = rand() % 1000 + 1; // Mengisi larik dengan bilangan bulat acak antara 1 dan 1000
+        cout << "Data ke " << i << " : " << Data[i] << endl;
+    }
+
+    // Mengurutkan larik menggunakan Selection Sort
+    SelectionSort();
+
+    // Menampilkan data setelah diurutkan
+    cout << "\nDATA SETELAH TERURUT" << endl;
+    for (i = 0; i < MAX; i++) {
+        cout << "Data ke " << i << " : " << Data[i] << endl;
+    }
+    // Menampilkan jumlah perbandingan dan pergeseran
+    cout << "\nJumlah Perbandingan: " << comparisonCount << endl;
+    cout << "Jumlah Pergeseran: " << shiftCount << endl;
+    
+    return 0;
+}

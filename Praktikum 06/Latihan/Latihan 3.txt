@@ -1,0 +1,130 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+// Definisi struktur Pegawai
+struct Pegawai {
+    string NIP;
+    string nama;
+};
+
+// Fungsi untuk menampilkan daftar pegawai
+void tampilkanDaftar(const vector<Pegawai>& daftar) {
+    for (const auto& pegawai : daftar) {
+        cout << "NIP: " << pegawai.NIP << ", Nama: " << pegawai.nama << endl;
+    }
+}
+
+// Fungsi untuk membandingkan pegawai berdasarkan NIP atau nama
+bool bandingkanPegawai(const Pegawai& a, const Pegawai& b, bool berdasarkanNIP, bool urutNaik) {
+    if (berdasarkanNIP) {
+        if (urutNaik) {
+            return a.NIP < b.NIP;
+        } else {
+            return a.NIP > b.NIP;
+        }
+    } else {
+        if (urutNaik) {
+            return a.nama < b.nama;
+        } else {
+            return a.nama > b.nama;
+        }
+    }
+}
+
+// Fungsi untuk mengurutkan pegawai menggunakan Straight Insertion Sort
+void straightInsertionSort(vector<Pegawai>& daftar, bool berdasarkanNIP, bool urutNaik) {
+    for (size_t i = 1; i < daftar.size(); ++i) {
+        Pegawai temp = daftar[i];
+        int j = i - 1;
+        while (j >= 0 && bandingkanPegawai(daftar[j], temp, berdasarkanNIP, urutNaik)) {
+            daftar[j + 1] = daftar[j];
+            --j;
+        }
+        daftar[j + 1] = temp;
+    }
+}
+
+// Fungsi untuk mengurutkan pegawai menggunakan Binary Insertion Sort
+void binaryInsertionSort(vector<Pegawai>& daftar, bool berdasarkanNIP, bool urutNaik) {
+    for (size_t i = 1; i < daftar.size(); ++i) {
+        Pegawai temp = daftar[i];
+        int low = 0, high = i - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (bandingkanPegawai(temp, daftar[mid], berdasarkanNIP, urutNaik)) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        for (int j = i - 1; j >= low; --j) {
+            daftar[j + 1] = daftar[j];
+        }
+        daftar[low] = temp;
+    }
+}
+
+// Fungsi untuk mengurutkan pegawai menggunakan Selection Sort
+void selectionSort(vector<Pegawai>& daftar, bool berdasarkanNIP, bool urutNaik) {
+    for (size_t i = 0; i < daftar.size() - 1; ++i) {
+        size_t min_idx = i;
+        for (size_t j = i + 1; j < daftar.size(); ++j) {
+            if (bandingkanPegawai(daftar[j], daftar[min_idx], berdasarkanNIP, urutNaik)) {
+                min_idx = j;
+            }
+        }
+        if (min_idx != i) {
+            swap(daftar[i], daftar[min_idx]);
+        }
+    }
+}
+
+int main() {
+    vector<Pegawai> data = {
+        {"123", "Joni"},
+        {"456", "Siti"},
+        {"789", "Sugeng"},
+        {"234", "Fara"},
+        {"567", "Steven"}
+    };
+
+    int pilihan;
+    cout << "Pilih metode pengurutan:" << endl;
+    cout << "1. Straight Insertion Sort" << endl;
+    cout << "2. Binary Insertion Sort" << endl;
+    cout << "3. Selection Sort" << endl;
+    cin >> pilihan;
+
+    bool berdasarkanNIP;
+    cout << "Pilih berdasarkan NIP? (1: Ya, 0: Tidak): ";
+    cin >> berdasarkanNIP;
+
+    bool urutNaik;
+    cout << "Pilih urutan: (1: Naik, 0: Turun): ";
+    cin >> urutNaik;
+
+    switch (pilihan) {
+        case 1:
+            straightInsertionSort(data, berdasarkanNIP, urutNaik);
+            break;
+        case 2:
+            binaryInsertionSort(data, berdasarkanNIP, urutNaik);
+            break;
+        case 3:
+            selectionSort(data, berdasarkanNIP, urutNaik);
+            break;
+        default:
+            cout << "Pilihan tidak valid!" << endl;
+            return 1;
+    }
+
+    // Menampilkan daftar pegawai yang sudah diurutkan
+    cout << "Daftar pegawai setelah diurutkan:" << endl;
+    tampilkanDaftar(data);
+
+    return 0;
+}

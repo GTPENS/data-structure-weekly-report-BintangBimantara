@@ -1,0 +1,61 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#define MAX 10
+using namespace std;
+
+//Nama:Bintang Bimantara
+//NRP: 5223600025
+
+int Data[MAX];
+int comparisonCount = 0; // Variabel untuk menghitung banyaknya perbandingan
+int shiftCount = 0; // Variabel untuk menghitung banyaknya pergeseran
+
+// Fungsi pengurutan penyisipan langsung
+void StraightInsertSort() {
+    int i, j, x;
+    for(i = 1; i < MAX; i++) {
+        x = Data[i];
+        j = i - 1;
+        while (x < Data[j] && j >= 0) {
+            Data[j + 1] = Data[j];
+            j--;
+            shiftCount++; // Menambah jumlah pergeseran
+            comparisonCount++; // Menambah jumlah perbandinga
+        }
+        Data[j + 1] = x;
+        shiftCount++; // Menambah jumlah pergeseran
+
+        // Menampilkan larik setiap kali terjadi pertukaran
+        cout << "Iterasi " << i << ": ";
+        for(int k = 0; k < MAX; k++) {
+            cout << Data[k] << " ";
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    int i;
+    srand(time(0));
+
+    // Memberikan bilangan acak
+    cout << "DATA SEBELUM TERURUT\n";
+    for(i = 0; i < MAX; i++) {
+        Data[i] = rand() % 1000 + 1;
+        cout << "Data ke " << i << " : " << Data[i] << "\n";
+    }
+
+    StraightInsertSort();
+
+    // Data setelah terurut
+    cout << "\nDATA SETELAH TERURUT\n";
+    for(i = 0; i < MAX; i++) {
+        cout << "Data ke " << i << " : " << Data[i] << "\n";
+    }
+    
+    // Menampilkan jumlah perbandingan dan pergeseran
+    cout << "\nJumlah Perbandingan: " << comparisonCount << endl;
+    cout << "Jumlah Pergeseran: " << shiftCount << endl;
+    return 0;
+}
