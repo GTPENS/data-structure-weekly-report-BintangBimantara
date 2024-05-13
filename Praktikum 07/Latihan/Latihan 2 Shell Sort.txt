@@ -1,0 +1,77 @@
+#include <iostream>
+#include <cstdlib>
+#define MAX 10
+using namespace std;
+//Nama: Bintang Bimantara
+//NRP: 5223600025
+int Data[MAX];
+int comparisonCount = 0; // Variabel untuk menghitung banyaknya perbandingan
+int shiftCount = 0; // Variabel untuk menghitung banyaknya pergeseran
+
+// Prosedur menukar data
+void Tukar(int *a, int *b)
+{
+    int temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Prosedur pengurutan metode Shell
+void ShellSort()
+{
+    int Jarak, i, j;
+    bool Sudah;
+    Jarak = MAX;
+    while (Jarak > 1)
+    {
+        Jarak = Jarak / 2;
+        Sudah = false;
+        while (!Sudah)
+        {
+            Sudah = true;
+            for (j = 0; j < MAX - Jarak; j++)
+            {
+                shiftCount++; // Menambah jumlah pergeseran
+                i = j + Jarak;
+                if (Data[j] > Data[i])
+                {
+                    Tukar(&Data[j], &Data[i]);
+                    Sudah = false;
+                    comparisonCount++; // Menambah jumlah perbandingan
+                    
+                    // Menampilkan larik setiap kali terjadi pertukaran
+                    cout << "Iterasi: "<< i << ": ";
+                    for(int k = 0; k < MAX; k++) {
+                        cout << Data[k] << " ";
+                    }
+                    cout << endl;
+                }
+            }
+        }
+    }
+}
+
+int main()
+{
+    int i;
+    srand(0);
+    // Membangkitkan bilangan acak
+    cout << "DATA SEBELUM TERURUT" << endl;
+    for (i = 0; i < MAX; i++)
+    {
+        Data[i] = rand() / 1000 + 1;
+        cout << "Data ke " << i << " : " << Data[i] << endl;
+    }
+    ShellSort();
+    // Data setelah terurut
+    cout << "DATA SETELAH TERURUT" << endl;
+    for (i = 0; i < MAX; i++)
+    {
+        cout << "Data ke " << i << " : " << Data[i] << endl;
+    }
+    // Menampilkan jumlah perbandingan dan pergeseran
+    cout << "\nJumlah Perbandingan: " << comparisonCount << endl;
+    cout << "Jumlah Pergeseran: " << shiftCount << endl;
+    return 0;
+}

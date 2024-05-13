@@ -1,0 +1,105 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+// Definisi struktur Pegawai
+struct Pegawai {
+    string NIP;
+    string nama;
+};
+
+// Fungsi untuk menampilkan daftar pegawai
+void tampilkanDaftar(const Pegawai daftar[], int size) {
+    for (int i = 0; i < size; ++i) {
+        cout << "NIP: " << daftar[i].NIP << ", Nama: " << daftar[i].nama << endl;
+    }
+}
+
+// Fungsi untuk membandingkan pegawai berdasarkan NIP atau nama
+bool bandingkanPegawai(const Pegawai& a, const Pegawai& b, bool berdasarkanNIP, bool urutNaik) {
+    if (berdasarkanNIP) {
+        if (urutNaik) {
+            return a.NIP < b.NIP;
+        } else {
+            return a.NIP > b.NIP;
+        }
+    } else {
+        if (urutNaik) {
+            return a.nama < b.nama;
+        } else {
+            return a.nama > b.nama;
+        }
+    }
+}
+
+// Prosedur pengurutan metode gelembung
+void BubbleSort(Pegawai daftar[], int size, bool berdasarkanNIP, bool urutNaik)
+{
+    for (int i = 0; i < size - 1; ++i) {
+        for (int j = 0; j < size - i - 1; ++j) {
+            if (bandingkanPegawai(daftar[j], daftar[j + 1], berdasarkanNIP, urutNaik)) {
+                swap(daftar[j], daftar[j + 1]);
+            }
+        }
+    }
+}
+
+// Prosedur pengurutan metode Shell
+void ShellSort(Pegawai daftar[], int size, bool berdasarkanNIP, bool urutNaik)
+{
+    for (int gap = size / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < size; ++i) {
+            Pegawai temp = daftar[i];
+            int j;
+            for (j = i; j >= gap && bandingkanPegawai(daftar[j - gap], temp, berdasarkanNIP, urutNaik); j -= gap) {
+                daftar[j] = daftar[j - gap];
+            }
+            daftar[j] = temp;
+        }
+    }
+}
+
+int main() {
+    const int SIZE = 5;
+    Pegawai data[SIZE] = {
+        {"123", "Joni"},
+        {"456", "Siti"},
+        {"789", "Sugeng"},
+        {"234", "Fara"},
+        {"567", "Steven"}
+    };
+
+    int pilihan;
+    cout << "Pilih metode pengurutan:" << endl;
+    cout << "1. Bubble Sort" << endl;
+    cout << "2. Shell Sort" << endl;
+    cin >> pilihan;
+
+    bool berdasarkanNIP;
+    cout << "Pilih berdasarkan NIP? (1: Ya, 0: Tidak): ";
+    cin >> berdasarkanNIP;
+
+    bool urutNaik;
+    cout << "Pilih urutan: (1: Naik, 0: Turun): ";
+    cin >> urutNaik;
+
+    switch (pilihan) {
+        case 1:
+            BubbleSort(data, SIZE, berdasarkanNIP, urutNaik);
+            break;
+        case 2:
+            ShellSort(data, SIZE, berdasarkanNIP, urutNaik);
+            break;
+        default:
+            cout << "Pilihan tidak valid!" << endl;
+            return 1;
+    }
+
+    // Menampilkan daftar pegawai yang sudah diurutkan
+    cout << "Daftar pegawai setelah diurutkan:" << endl;
+    tampilkanDaftar(data, SIZE);
+
+    return 0;
+}
