@@ -1,0 +1,104 @@
+#include <iostream>
+#include <cstdlib>
+#define MAX 10
+using namespace std;
+
+//Nama: Bintang Bimantara
+//NRP: 5223600025
+int Data[MAX];
+int temp[MAX];
+
+// Prosedur merge sort
+void merge(int Data[], int temp[], int kiri, int tengah, int kanan, int &ko, int &jumlahPergeseran, int &jumlahPerbandingan)
+{
+    int i, left_end, num_elements, tmp_pos;
+    left_end = tengah - 1;
+    tmp_pos = kiri;
+    num_elements = kanan - kiri + 1;
+    while ((kiri <= left_end) && (tengah <= kanan))
+    {
+        jumlahPerbandingan++; // Tambahkan jumlah perbandingan
+        if (Data[kiri] <= Data[tengah])
+        {
+            temp[tmp_pos] = Data[kiri];
+            tmp_pos = tmp_pos + 1;
+            kiri = kiri + 1;
+            jumlahPergeseran++; // Tambahkan jumlah pergeseran
+        }
+        else
+        {
+            temp[tmp_pos] = Data[tengah];
+            tmp_pos = tmp_pos + 1;
+            tengah = tengah + 1;
+            jumlahPergeseran++; // Tambahkan jumlah pergeseran
+        }
+    }
+    while (kiri <= left_end)
+    {
+        temp[tmp_pos] = Data[kiri];
+        kiri = kiri + 1;
+        tmp_pos = tmp_pos + 1;
+        jumlahPergeseran++; // Tambahkan jumlah pergeseran
+    }
+    while (tengah <= kanan)
+    {
+        temp[tmp_pos] = Data[tengah];
+        tengah = tengah + 1;
+        tmp_pos = tmp_pos + 1;
+        jumlahPergeseran++; // Tambahkan jumlah pergeseran
+    }
+    for (i = 0; i < num_elements; i++)
+    {
+        Data[kanan] = temp[kanan];
+        kanan = kanan - 1;
+    }
+    ko++;
+    // Menampilkan iterasi setiap kali terjadi pertukaran
+    cout << "Iterasi " << ko << ": ";
+    for (i = 0; i < MAX; i++)
+        cout << Data[i] << " ";
+    cout << endl;
+}
+
+// Prosedur membuat kumpulan data
+void m_sort(int Data[], int temp[], int kiri, int kanan, int &ko, int &jumlahPergeseran, int &jumlahPerbandingan)
+{
+    int tengah;
+    if (kanan > kiri)
+    {
+        tengah = (kanan + kiri) / 2;
+        m_sort(Data, temp, kiri, tengah, ko, jumlahPergeseran, jumlahPerbandingan);
+        m_sort(Data, temp, tengah + 1, kanan, ko, jumlahPergeseran, jumlahPerbandingan);
+        merge(Data, temp, kiri, tengah + 1, kanan, ko, jumlahPergeseran, jumlahPerbandingan);
+    }
+}
+
+void mergeSort(int Data[], int temp[], int array_size)
+{
+    int ko = 0; // Variabel untuk melacak iterasi
+    int jumlahPergeseran = 0; // Variabel untuk melacak jumlah pergeseran
+    int jumlahPerbandingan = 0; // Variabel untuk melacak jumlah perbandingan
+    m_sort(Data, temp, 0, array_size - 1, ko, jumlahPergeseran, jumlahPerbandingan);
+    cout << "Jumlah pergeseran: " << jumlahPergeseran << endl; // Menampilkan jumlah pergeseran
+    cout << "Jumlah perbandingan: " << jumlahPerbandingan << endl; // Menampilkan jumlah perbandingan
+}
+
+int main()
+{
+    int i;
+    //pembangkit bilangan random
+    srand(0);
+    //membangkitkan bilangan integer random
+    cout << "DATA SEBELUM TERURUT : ";
+    for (i = 0; i < MAX; i++)
+    {
+        Data[i] = rand() / 1000 + 1;
+        cout << Data[i] << " ";
+    }
+    cout << "\n" ;
+    mergeSort(Data, temp, MAX);
+    cout << "\nDATA SETELAH TERURUT : ";
+    for (i = 0; i < MAX; i++)
+        cout << Data[i] << " ";
+    cout << endl;
+}
